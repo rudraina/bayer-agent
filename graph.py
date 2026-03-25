@@ -249,6 +249,8 @@ async def run_agent(agent, state: AgentState):
     if not last_ai:
         raise RuntimeError(f"{agent.name} did not produce an AIMessage.")
 
+    logger.info(f"agent_response agent='{agent.name}' content='{last_ai.content.replace(chr(10), ' ')}'")
+    
     parsed = extract_json(last_ai.content)
     
     next_agent = parsed.get("next_agent", "end")
