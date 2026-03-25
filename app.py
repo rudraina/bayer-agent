@@ -5,12 +5,19 @@ import os
 import json
 import logging
 import datetime
+import sys
 
 app = FastAPI()
 
 # Basic logfmt style logger
-logging.basicConfig(level=logging.INFO, format='time="%(asctime)s" level="%(levelname)s" msg="%(message)s"')
 logger = logging.getLogger("bayer-agent")
+if not logger.handlers:
+    handler = logging.StreamHandler(sys.stdout)
+    formatter = logging.Formatter('time="%(asctime)s" level="%(levelname)s" msg="%(message)s"')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+logger.setLevel(logging.INFO)
+logger.propagate = False
 
 RCA_DIR = os.path.join(os.path.dirname(__file__), "rca_reports")
 os.makedirs(RCA_DIR, exist_ok=True)
