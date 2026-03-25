@@ -1,0 +1,31 @@
+{
+  "service": "checkout-service",
+  "events": [
+    {
+      "type": "deployment",
+      "timestamp": "2026-03-25T09:00:00Z",
+      "version": "v2.3.1",
+      "commit": "abc123",
+      "author": "ci-bot"
+    },
+    {
+      "type": "config_change",
+      "timestamp": "2026-03-25T09:15:00Z",
+      "key": "db_pool_size",
+      "old_value": 50,
+      "new_value": 10,
+      "risk": "high"
+    },
+    {
+      "type": "pod_restart",
+      "timestamp": "2026-03-25T09:16:00Z",
+      "reason": "rolling update"
+    },
+    {
+      "type": "deployment",
+      "timestamp": "2026-03-25T09:45:00Z",
+      "version": "v2.3.2",
+      "note": "rollback candidate"
+    }
+  ]
+}

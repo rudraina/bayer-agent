@@ -1,0 +1,37 @@
+ts=2026-03-25T09:00:00Z level=info service=checkout-service env=prod msg="service healthy" latency_ms=120
+ts=2026-03-25T09:02:00Z level=info service=api-gateway env=prod route=/checkout latency_ms=130 status=200
+ts=2026-03-25T09:05:00Z level=info service=checkout-service env=prod msg="heartbeat ok" latency_ms=140
+ts=2026-03-25T09:08:00Z level=info service=payment-service env=prod msg="payment processed" latency_ms=200 status=200
+ts=2026-03-25T09:10:00Z level=info service=checkout-service env=prod msg="service stable" latency_ms=150
+
+ts=2026-03-25T09:15:00Z level=info service=deploy-service env=prod event=config_change key=db_pool_size old=50 new=10 actor=ci-bot
+ts=2026-03-25T09:15:10Z level=info service=deploy-service env=prod event=deployment_completed version=v2.3.1 commit=abc123
+
+ts=2026-03-25T09:16:05Z level=warn service=checkout-service env=prod trace_id=tr_201 span=db_call duration_ms=600 msg="slow db response"
+ts=2026-03-25T09:17:10Z level=error service=checkout-service env=prod trace_id=tr_202 span=db_call error="connection timeout" timeout_ms=1000 db_host=db-prod-1
+ts=2026-03-25T09:18:15Z level=error service=checkout-service env=prod trace_id=tr_203 span=db_call error="connection timeout" db_host=db-prod-1
+ts=2026-03-25T09:19:00Z level=warn service=checkout-service env=prod msg="retrying db connection" retry_count=1
+
+ts=2026-03-25T09:20:30Z level=error service=checkout-service env=prod trace_id=tr_204 span=db_call error="connection pool exhausted" active_connections=10 max_connections=10
+ts=2026-03-25T09:22:00Z level=error service=checkout-service env=prod trace_id=tr_205 span=db_call error="connection timeout"
+ts=2026-03-25T09:23:30Z level=warn service=checkout-service env=prod msg="retrying db connection" retry_count=2
+
+ts=2026-03-25T09:25:00Z level=info service=api-gateway env=prod route=/checkout latency_ms=1500 status=200
+ts=2026-03-25T09:26:00Z level=info service=api-gateway env=prod route=/checkout latency_ms=1800 status=200
+ts=2026-03-25T09:27:00Z level=warn service=api-gateway env=prod route=/checkout latency_ms=2200 status=200 msg="high latency detected"
+ts=2026-03-25T09:28:30Z level=error service=api-gateway env=prod route=/checkout latency_ms=2800 status=500 error="upstream timeout"
+
+ts=2026-03-25T09:30:00Z level=error service=alert-manager env=prod alert=checkout_latency_spike value_ms=2000 threshold_ms=1000 severity=critical
+
+ts=2026-03-25T09:32:00Z level=error service=checkout-service env=prod trace_id=tr_206 span=db_call error="connection timeout"
+ts=2026-03-25T09:35:00Z level=error service=checkout-service env=prod trace_id=tr_207 span=db_call error="connection pool exhausted"
+ts=2026-03-25T09:38:00Z level=warn service=checkout-service env=prod msg="high retry rate detected" retry_count=5
+
+ts=2026-03-25T09:40:00Z level=info service=api-gateway env=prod route=/checkout latency_ms=2400 status=200
+ts=2026-03-25T09:42:00Z level=warn service=api-gateway env=prod route=/checkout latency_ms=2100 status=200
+
+ts=2026-03-25T09:45:00Z level=info service=deploy-service env=prod event=deployment_started version=v2.3.2 note="rollback candidate"
+
+ts=2026-03-25T09:50:00Z level=info service=checkout-service env=prod msg="system degraded but stable"
+ts=2026-03-25T09:55:00Z level=info service=checkout-service env=prod msg="monitoring ongoing"
+ts=2026-03-25T10:00:00Z level=info service=checkout-service env=prod msg="end of observation window"

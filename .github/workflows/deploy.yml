@@ -1,0 +1,43 @@
+name: Deploy to App Runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region eu-central-1 \
+          | docker login --username AWS --password-stdin 333813598365.dkr.ecr.eu-central-1.amazonaws.com
+
+      - name: Build Docker image
+        run: |
+          docker build --platform linux/amd64 -t agent-test .
+
+      - name: Tag Docker image
+        run: |
+          docker tag agent-test:latest 333813598365.dkr.ecr.eu-central-1.amazonaws.com/hackathon_user3/bayer_agent:latest
+
+      - name: Push Docker image
+        run: |
+          docker push 333813598365.dkr.ecr.eu-central-1.amazonaws.com/hackathon_user3/bayer_agent:latest
+
+      - name: Trigger App Runner deployment
+        run: |
+          aws apprunner start-deployment \
+          --service-arn arn:aws:apprunner:eu-central-1:333813598365:service/agent-service/855cd43b0df54996b4fce8f2229ec4c8

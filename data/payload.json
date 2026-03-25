@@ -1,0 +1,15 @@
+{
+  "incident_id": "inc_001",
+  "alert_name": "checkout_latency_spike",
+  "service": "checkout-service",
+  "severity": "critical",
+  "trigger_time": "2026-03-25T09:30:00Z",
+  "metric": "latency_ms",
+  "current_value": 2000,
+  "threshold": 1000,
+  "lookback_window_minutes": 15,
+  "analysis_window": {
+    "start": "2026-03-25T09:15:00Z",
+    "end": "2026-03-25T09:45:00Z"
+  }
+}

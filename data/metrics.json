@@ -1,0 +1,39 @@
+{
+  "service": "checkout-service",
+  "time_window": "2026-03-25T09:00:00Z/2026-03-25T10:00:00Z",
+  "metrics": [
+    {
+      "name": "latency_ms_p95",
+      "timestamps": [
+        "09:00", "09:10", "09:15", "09:20", "09:25", "09:30", "09:35", "09:40"
+      ],
+      "values": [120, 140, 300, 800, 1500, 2200, 2500, 2000]
+    },
+    {
+      "name": "db_connection_errors",
+      "timestamps": [
+        "09:00", "09:10", "09:15", "09:20", "09:25", "09:30", "09:35"
+      ],
+      "values": [0, 1, 2, 10, 25, 45, 40]
+    },
+    {
+      "name": "db_pool_utilization",
+      "timestamps": [
+        "09:00", "09:10", "09:15", "09:20", "09:25", "09:30"
+      ],
+      "values": [0.4, 0.5, 0.6, 0.9, 1.0, 1.0]
+    },
+    {
+      "name": "request_error_rate",
+      "timestamps": [
+        "09:00", "09:10", "09:20", "09:25", "09:30"
+      ],
+      "values": [0.01, 0.02, 0.05, 0.12, 0.25]
+    }
+  ],
+  "anomaly_summary": {
+    "latency_spike": "7x increase",
+    "db_errors_spike": true,
+    "pool_saturation": true
+  }
+}
