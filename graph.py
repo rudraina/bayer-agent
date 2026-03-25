@@ -252,6 +252,10 @@ async def run_agent(agent, state: AgentState):
     parsed = extract_json(last_ai.content)
     
     next_agent = parsed.get("next_agent", "end")
+    # Normalize: lowercase and replace spaces with underscores to match node IDs
+    if isinstance(next_agent, str):
+        next_agent = next_agent.lower().replace(" ", "_").strip()
+        
     instructions = parsed.get("next_agent_instructions", "")
     
     # Safely truncate instructions for the log to stay readable

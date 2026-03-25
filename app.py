@@ -10,14 +10,15 @@ import sys
 app = FastAPI()
 
 # Basic logfmt style logger
-logger = logging.getLogger("bayer-agent")
-if not logger.handlers:
-    handler = logging.StreamHandler(sys.stdout)
-    formatter = logging.Formatter('time="%(asctime)s" level="%(levelname)s" msg="%(message)s"')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-logger.setLevel(logging.INFO)
-logger.propagate = False
+# Force all logs to root and flush instantly
+logging.basicConfig(
+    stream=sys.stdout,
+    level=logging.INFO,
+    format='time="%(asctime)s" level="%(levelname)s" msg="%(message)s"',
+    force=True
+)
+logger = logging.getLogger()
+logger.info("bayer_agent_startup_successful version='v1.2.0'")
 
 RCA_DIR = os.path.join(os.path.dirname(__file__), "rca_reports")
 os.makedirs(RCA_DIR, exist_ok=True)
